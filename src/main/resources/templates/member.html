@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel=”shortcut icon” href="/assets/img/favicon.ico">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+
+    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+    <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <script>
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+        $(document).ajaxSend(function(e,xhr,options) {
+            xhr.setRequestHeader(header, token);
+        })
+    </script>
+</head>
+<body>
+<script>
+$(document).ready(function(){
+    $("#btnTest").click(function(){
+
+        var data = {
+            "user_email": "test22@test.com"
+            , "user_name": "이름"
+        }
+        $.post("/saveMember", data, function(res){
+            console.log(res);
+        })
+    })
+
+    $("#btnTestGet").click(function(){
+        $.get("/getTest", function(res){
+            console.log("GET res: ", res);
+        })
+    })
+})
+</script>
+
+
+<form action="/saveMember" method="post">
+    <input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+    <input type="text" name="user_email" value="test@test.com">
+    <input type="text" name="user_name" value="test">
+    <button type="submit">전송</button>
+</form>
+
+<br><br>
+<button id="btnTest">ajax POST 테스트</button>
+<br><br>
+<button id="btnTestGet">ajax GET 테스트</button>
+</body>
+</html>
