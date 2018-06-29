@@ -17,10 +17,10 @@
 - configuration 에는 최소한의 것 설정
 
 ### 에러 핸들러
-ExceptionHandler => @ControllerAdvice
+- ExceptionHandler => @ControllerAdvice
 
 ### 사용자수정 Exception
-CustomException
+- CustomException
 
 ### thymeleaf
 
