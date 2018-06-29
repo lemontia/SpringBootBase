@@ -1,10 +1,9 @@
-package kr.demonic.util;
+package kr.demonic.util.error;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -14,7 +13,7 @@ import java.util.Map;
  * Exception 핸들러.
  */
 @ControllerAdvice(basePackages = "kr.demonic")
-public class HandlerExceptionComm {
+public class CustomExceptionHandler {
 
 
     @ExceptionHandler({SQLException.class, DataIntegrityViolationException.class})
@@ -26,17 +25,6 @@ public class HandlerExceptionComm {
         result.put("message", "Data error");
         return result;
     }
-
-//    @ExceptionHandler(DataIntegrityViolationException.class)
-//    @ResponseBody
-//    public Map handlerDataIntegrityViolationException(Exception e){
-//        System.out.println("=============================== DataIntegrityViolationException.class");
-//        e.printStackTrace();
-//        Map result = new HashMap();
-//        result.put("code", "9999");
-//        result.put("message", "Data error");
-//        return result;
-//    }
 
     @ExceptionHandler(Exception.class)
     @ResponseBody

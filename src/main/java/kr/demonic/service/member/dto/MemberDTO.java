@@ -11,4 +11,6 @@ public class MemberDTO {
     private String user_name;
     private String user_status;
     private String auth_site;
+    private String user_password;
+    private String user_role;
 }

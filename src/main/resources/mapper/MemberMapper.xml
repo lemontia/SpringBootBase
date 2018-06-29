@@ -2,14 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="kr.demonic.service.member.mapper.MemberMapper">
+    <select id="chkLogin" parameterType="string" resultType="kr.demonic.service.member.dto.MemberDTO">
+        select m.*
+        from tb_member m
+        where m.user_email = #{user_email}
+    </select>
+
     <insert id="insertMember"  parameterType="kr.demonic.service.member.dto.MemberDTO">
         INSERT INTO tb_member
-        (user_email, user_name, auth_site)
+        (user_email, user_name)
         VALUES
         (
           #{user_email}
           , #{user_name}
-          , #{auth_site}
         )
     </insert>
 

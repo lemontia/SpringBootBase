@@ -6,6 +6,8 @@ import kr.demonic.service.member.mapper.MemberMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,10 +25,26 @@ public class LoginController {
     @Autowired
     private MemberMapper memberMapper;
 
-    @RequestMapping("/member")
+    @RequestMapping(path = {"/member", "/login"})
     public String test(Model model){
-
         return "member";
+    }
+
+    @RequestMapping("/admin")
+    public String admin(@AuthenticationPrincipal User user) {
+        System.out.println("================= " + user);
+        return "admin";
+    }
+
+    @RequestMapping("/admin/test")
+    public String admin_test(@AuthenticationPrincipal User user){
+        System.out.println("================= " + user);
+        return "admin_test";
+    }
+
+    @RequestMapping("/loginFail")
+    public String loginFail(){
+        return "loginFail";
     }
 
     @RequestMapping(path="/loginChk", produces = "text/html")
@@ -37,13 +55,9 @@ public class LoginController {
     @RequestMapping(path="/saveMember", method = RequestMethod.POST)
     @ResponseBody
     public MemberDTO saveMember(@ModelAttribute MemberDTO memberDTO){
-        if (memberDTO.getAuth_site() == null || memberDTO.getAuth_site().equals("")) {
-            String auth_site = "KAKAO";
-            memberDTO.setAuth_site(auth_site);
-        }
-        int result = memberMapper.insertMember(memberDTO);
+        Map map = new HashMap();
 
-        System.out.println("=================== " + result);
+        int result = memberMapper.insertMember(memberDTO);
         return memberDTO;
     }
 

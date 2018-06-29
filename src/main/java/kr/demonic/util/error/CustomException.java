@@ -1,4 +1,4 @@
-package kr.demonic.util;
+package kr.demonic.util.error;
 
 public class CustomException extends Exception {
     private String ERR_CODE = "";

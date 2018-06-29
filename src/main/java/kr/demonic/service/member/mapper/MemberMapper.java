@@ -7,7 +7,7 @@ import java.util.Map;
 
 @Mapper
 public interface MemberMapper {
-    int insertMember(Map map);
+    MemberDTO chkLogin(String user_email);
 
     int insertMember(MemberDTO memberDTO);
 }
