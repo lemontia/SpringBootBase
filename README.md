@@ -4,27 +4,27 @@
 
 ## Spring Boot 구성요소
 
-### Gradle 사용
+- Gradle 사용
 
-### Mariadb JDBC 추가
+- Mariadb JDBC 추가
 
-### DB 로그
-- 파라미터 적용된 SQL문 보임 => log4jdbc
+- DB 로그
+-- 파라미터 적용된 SQL문 보임 => log4jdbc
 	예) INSERT INTO tb_member (user_email, user_name, auth_site) VALUES ( 'test22@test.com' , '이름', 'KAKAO' ) 
 
-### Mybatis
-- Mapper 설정
-- configuration 에는 최소한의 것 설정
+- Mybatis
+> Mapper 설정
+> configuration 에는 최소한의 것 설정
 
-### 에러 핸들러
-- ExceptionHandler => @ControllerAdvice
+- 에러 핸들러
+> ExceptionHandler => @ControllerAdvice
 
-### 사용자수정 Exception
-- CustomException
+- 사용자수정 Exception
+> CustomException
 
-### thymeleaf
+- thymeleaf
 
-### devtools
+- devtools
 
 
 ## DB 설정
