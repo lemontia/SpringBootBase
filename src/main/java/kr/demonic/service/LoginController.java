@@ -37,8 +37,6 @@ public class LoginController {
     @RequestMapping(path="/saveMember", method = RequestMethod.POST)
     @ResponseBody
     public MemberDTO saveMember(@ModelAttribute MemberDTO memberDTO){
-        Map map = new HashMap();
-
         if (memberDTO.getAuth_site() == null || memberDTO.getAuth_site().equals("")) {
             String auth_site = "KAKAO";
             memberDTO.setAuth_site(auth_site);
