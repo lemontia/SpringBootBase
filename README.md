@@ -28,6 +28,9 @@
 
 - lombok
 
+- Spring Security
+> 좀더 설정이 필요.
+
 
 ## DB 설정
 1. MariaDB(또는 MySQL) 에 test 데이터베이스 생성
