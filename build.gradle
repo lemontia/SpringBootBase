@@ -25,6 +25,9 @@ repositories {
 
 
 dependencies {
+//    JPA 사용
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+
     compile('org.springframework.boot:spring-boot-starter-web')
 //  devtools
     compile('org.springframework.boot:spring-boot-devtools')

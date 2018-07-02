@@ -14,16 +14,18 @@ spring:
     driver-class-name: net.sf.log4jdbc.DriverSpy
     url: jdbc:log4jdbc:mariadb://localhost:3306/test?useSSL=false
 
+# JPA 설정
+  jpa:
+    hibernate:
+      ddl-auto: update
+    generate-ddl: false
+    show-sql: true
+    database: mysql
+    # 테이블 생성시 InnoDB 로 생성
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+
+
 
 mybatis:
   config-location: classpath:config/mybatis-config.xml
   mapper-locations: ["classpath:mapper/**/*.xml"]
-
-
-
-
-#  jpa:
-#    hibernate:
-#      ddl-auto: create
-#    show-sql: true
-#    database: mysql

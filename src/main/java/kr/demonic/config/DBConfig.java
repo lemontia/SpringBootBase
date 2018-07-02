@@ -16,11 +16,11 @@ import javax.sql.DataSource;
 @MapperScan(basePackages = "kr.demonic", annotationClass = Mapper.class)
 public class DBConfig {
 
-    @Autowired
-    private DataSource datasource;
+//    @Autowired
+//    private DataSource datasource;
 
-    @Bean
-    public DataSourceTransactionManager txManager(){
-        return new DataSourceTransactionManager(datasource);
-    }
+//    @Bean
+//    public DataSourceTransactionManager txManager(){
+//        return new DataSourceTransactionManager(datasource);
+//    }
 }
