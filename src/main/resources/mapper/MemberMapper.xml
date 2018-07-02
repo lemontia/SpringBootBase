@@ -10,11 +10,12 @@
 
     <insert id="insertMember"  parameterType="kr.demonic.service.member.dto.MemberDTO">
         INSERT INTO tb_member
-        (user_email, user_name)
+        (user_email, user_name, user_password)
         VALUES
         (
           #{user_email}
           , #{user_name}
+          , #{user_password}
         )
     </insert>
 
