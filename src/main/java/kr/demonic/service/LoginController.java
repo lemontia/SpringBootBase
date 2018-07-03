@@ -1,6 +1,7 @@
 package kr.demonic.service;
 
 
+import kr.demonic.config.security.UserCustom;
 import kr.demonic.service.member.dto.MemberDTO;
 import kr.demonic.service.member.mapper.MemberMapper;
 import kr.demonic.util.error.CustomException;
@@ -47,7 +48,8 @@ public class LoginController {
     }
 
     @RequestMapping("/admin")
-    public String admin(@AuthenticationPrincipal User user) {
+//    public String admin(@AuthenticationPrincipal User user) {
+    public String admin(@AuthenticationPrincipal UserCustom user) {
         System.out.println("================= " + user);
         return "admin";
     }
@@ -62,6 +64,7 @@ public class LoginController {
     public String loginFail(){
         return "loginFail";
     }
+
 
     @RequestMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response){

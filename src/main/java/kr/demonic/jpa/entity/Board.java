@@ -9,9 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-@Getter
-@Setter
-@ToString
+@Getter @Setter @ToString
 @Entity
 @Table(name="tb_boards")
 public class Board {
