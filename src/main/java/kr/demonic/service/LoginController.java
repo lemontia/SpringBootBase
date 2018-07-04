@@ -43,12 +43,19 @@ public class LoginController {
     }
 
     @RequestMapping(path = {"/member", "/login"})
-    public String test(Model model){
+    public String login(){
+        // 로그인 인증하기 전 페이지 기억
+        // 장점. 로그인을 하고나서 전 페이지로 이동이 수월함
+        // 단점. 로그인이 필요한 서비스로 이동하다가 걸린경우,
+        //      로그인 이후에 해당페이지로 이동하는게 아니라 호출한 페이지로 이동
+        //      예) /main 에서 /admin 으로 접근하다가 로그인이 걸린건데, 로그인 성공이후 호출했던
+        //          /main 페이지로 이동하게 됨
+//        String referrer = request.getHeader("Referer");
+//        request.getSession().setAttribute("prevPage", referrer);
         return "login";
     }
 
     @RequestMapping("/admin")
-//    public String admin(@AuthenticationPrincipal User user) {
     public String admin(@AuthenticationPrincipal UserCustom user) {
         System.out.println("================= " + user);
         return "admin";

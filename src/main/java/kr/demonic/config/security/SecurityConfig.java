@@ -37,7 +37,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         // 아래 순서가 중요함.
         // 실제로 스프링 문서를 보면 permitAll로 첫번째 허가를 낸 경우 authenticated 로 제한을 걸어도 걸리지 않음.
-        http.authorizeRequests()
+        http
+                .authorizeRequests()
 //                .antMatchers("/testNoAuth").authenticated()
                 .antMatchers("/admin").authenticated()
                 // ADMIN 권한이 있는것만 가능.
@@ -45,17 +46,35 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**").permitAll()
                 .and()
                 .formLogin()        // form 태그 기반 로그인 지원 설정.
-                .loginPage("/login")
-                .loginProcessingUrl("/loginAction")
-                .defaultSuccessUrl("/")
-                .failureUrl("/loginFail")
-                // 로그인 ID 비교할 파라미터.
-                // 만약 아랫것을 바꾼다면 CustomUserDetailService.loadUserByUsername 의 파라미터도 변경되어야 함.
-                .usernameParameter("user_email")
-                .passwordParameter("user_password")
+                    .loginPage("/login")
+                    .loginProcessingUrl("/loginAction")
+                    .defaultSuccessUrl("/")
+                    .successHandler(new LoginSuccessHandler("/"))
+                    .failureUrl("/loginFail")
+                    // 로그인 ID 비교할 파라미터.
+                    // 만약 아랫것을 바꾼다면 CustomUserDetailService.loadUserByUsername 의 파라미터도 변경되어야 함.
+                    .usernameParameter("user_email")
+                    .passwordParameter("user_password")
+                .permitAll()
                 .and()
-                .logout().logoutUrl("/logout").logoutSuccessUrl("/")
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/")
                 .invalidateHttpSession(true)        // HttpSession의 정보를 무효화
+                .deleteCookies("JSESSIONID,remember-me")
+                .permitAll()
+
+                // Remember Me 추가
+                // 아래의 코드를 추가하면 'configureGlobal' 을 사용하지 않아도 된다.
+                //      만약 passwordEncoder 를 사용하는 경우는 사용해야 한다.
+                // 아래도 체인 순서는 중요하다.
+                .and()
+                .rememberMe().key("insTarot")           // 쿠키값으로 암호화된 값을 전달하고, 로그인 상태를 기억합니다.
+                .rememberMeParameter("remember-me")
+                .tokenValiditySeconds(2419200)          // 쿠키유지 시간(설정되어있지 않으면 기본 2주)
+                .userDetailsService(customUserDetailService)
+                .tokenRepository(getJDBCRepository())       // DB에 토큰 저장. DB 테이블 생성은 아래주석 참조.
+        ;
         ;
 
         // 아래의 코드를 추가하면 'configureGlobal' 을 사용하지 않아도 된다.
