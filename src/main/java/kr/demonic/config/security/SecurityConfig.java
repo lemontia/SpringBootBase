@@ -58,24 +58,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .logout()
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/")
-                .invalidateHttpSession(true)        // HttpSession의 정보를 무효화
-                .deleteCookies("JSESSIONID,remember-me")
-                .permitAll()
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/")
+                    .invalidateHttpSession(true)        // HttpSession의 정보를 무효화
+                    .deleteCookies("JSESSIONID")
+                    .permitAll()
 
                 // Remember Me 추가
                 // 아래의 코드를 추가하면 'configureGlobal' 을 사용하지 않아도 된다.
                 //      만약 passwordEncoder 를 사용하는 경우는 사용해야 한다.
                 // 아래도 체인 순서는 중요하다.
                 .and()
-                .rememberMe().key("insTarot")           // 쿠키값으로 암호화된 값을 전달하고, 로그인 상태를 기억합니다.
-                .rememberMeParameter("remember-me")
-                .tokenValiditySeconds(2419200)          // 쿠키유지 시간(설정되어있지 않으면 기본 2주)
-                .userDetailsService(customUserDetailService)
-                .tokenRepository(getJDBCRepository())       // DB에 토큰 저장. DB 테이블 생성은 아래주석 참조.
+                .rememberMe()
+                    .key("springBootBase")           // 쿠키값으로 암호화된 값을 전달하고, 로그인 상태를 기억합니다.
+                    .rememberMeParameter("remember-me")
+                    .tokenValiditySeconds(2419200)          // 쿠키유지 시간(설정되어있지 않으면 기본 2주)
+                    .tokenRepository(getJDBCRepository())       // DB에 토큰 저장. DB 테이블 생성은 아래주석 참조.
         ;
-        ;
+
 
         // 아래의 코드를 추가하면 'configureGlobal' 을 사용하지 않아도 된다.
         //      만약 passwordEncoder 를 사용하는 경우는 사용해야 한다.
@@ -83,7 +83,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .rememberMe().key("key")           // 쿠키값으로 암호화된 값을 전달하고, 로그인 상태를 기억합니다.
                 .tokenValiditySeconds(2419200)          // 쿠키유지 시간(설정되어있지 않으면 기본 2주)
-                .userDetailsService(customUserDetailService)
                 .tokenRepository(getJDBCRepository())       // DB에 토큰 저장. DB 테이블 생성은 아래주석 참조.
         ;
     }

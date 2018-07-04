@@ -19,5 +19,8 @@
         )
     </insert>
 
+    <delete id="deletePersistentLogins" parameterType="kr.demonic.config.security.UserCustom">
+        delete from persistent_logins where username=#{username}
+    </delete>
 
 </mapper>

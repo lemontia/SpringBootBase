@@ -26,24 +26,6 @@ public class CustomUserDetailService implements UserDetailsService {
     @Autowired
     MemberMapper memberMapper;
 
-
-    // 시큐리티의 User 클래스를 그대로 쓰는 경우 아래 메서드 활성화
-//    @Override
-//    public UserDetails loadUserByUsername(String user_email) throws UsernameNotFoundException {
-//        MemberDTO memberDTO = memberMapper.chkLogin(user_email);
-//
-//        // 조회가 되지않는 고객은 익셉션.
-//        if(memberDTO == null){
-//            throw new UsernameNotFoundException(user_email);
-//        }
-//
-//        User user = new User(memberDTO.getUser_email()
-//                , memberDTO.getUser_password()
-//                , authorities(memberDTO));
-//
-//        return user;
-//    }
-
     // 시큐리티의 내용 외 파라미터를 추가하고 싶을 때, 아래 사용
     //  제약조건: Controller 에서 Auth를 점검할 때, UserCustom 으로 받아야 함.
     //  예) (변경 전) @AuthenticationPrincipal User user => (변경 후) @AuthenticationPrincipal UserCustom user
@@ -55,9 +37,10 @@ public class CustomUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String user_email) throws UsernameNotFoundException {
+        // 로그인 시도하려는 유저정보 조회
         MemberDTO memberDTO = memberMapper.chkLogin(user_email);
 
-        // 조회가 되지않는 고객은 익셉션.
+        // 조회가 되지않는 고객은 에러발생.
         if(memberDTO == null){
             throw new UsernameNotFoundException(user_email);
         }
@@ -66,6 +49,7 @@ public class CustomUserDetailService implements UserDetailsService {
                 , memberDTO.getUser_password()
                 , enabled, accountNonExpired, credentialsNonExpired, accountNonLocked
                 , authorities(memberDTO)
+                , memberDTO.getUser_email()
                 , memberDTO.getUser_name() // 이름
         );
 
@@ -74,9 +58,9 @@ public class CustomUserDetailService implements UserDetailsService {
 
 
     // DB에 등록된 권한에 따라 유저권한 부여 user_role
-//    private static Collection<? extends GrantedAuthority> authorities(MemberDTO memberDTO) {
     private static Collection<? extends GrantedAuthority> authorities(MemberDTO memberDTO){
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        // DB에 저장한 USER_ROLE 이 1이면 ADMIN 권한, 아니면 ROLE_USER 로 준다.
         if(memberDTO.getUser_role().equals("1")){
             authorities.add(new SimpleGrantedAuthority("ADMIN"));
         }else{

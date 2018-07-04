@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.Member;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -74,12 +75,16 @@ public class LoginController {
 
 
     @RequestMapping("/logout")
-    public String logout(HttpServletRequest request, HttpServletResponse response){
+    public String logout(HttpServletRequest request, HttpServletResponse response
+            , @AuthenticationPrincipal UserCustom userCustom){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if ( auth != null ){
+        if (auth != null) {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
-        return "login";
+
+        // (remember-me 토큰 삭제) persistent_logins 테이블에 저장되어있는 Token 삭제.
+        memberMapper.deletePersistentLogins(userCustom);
+        return "redirect:/main";
     }
 
     @RequestMapping(path="/loginChk", produces = "text/html")
